@@ -24,3 +24,6 @@ hs_err_pid*
 /target
 /.idea
 *.iml
+settings.xml
+pom.xml.releaseBackup
+release.properties
