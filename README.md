@@ -7,7 +7,7 @@ Mock kinesis is a library intended to run with the maven-failsafe-plugin to act 
 Maven:
 ```xml
 <dependency>
-    <groupId>com.genesys.purecloud</groupId>
+    <groupId>com.mypurecloud</groupId>
     <artifactId>mock-kinesis-maven-plugin</artifactId>
     <version>${mock.kinesis.version}</version>
 </dependency>
