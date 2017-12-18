@@ -23,9 +23,13 @@ public class MockKinesis extends AbstractMojo {
     @Parameter(defaultValue = "kinesis-mock", required = false)
     protected transient String streamname = "kinesis-mock";
 
+    @Parameter(defaultValue = "kinesis-mock2", required = false)
+    protected transient String streamname2 = "kinesis-mock2";
+
     @Override
     public void execute()  {
-        log.info(String.format("Starting mock kinesis on port %d", port));
+        log.info(String.format("Starting mock kinesis stream %s on port %d", streamname, port));
+        log.info(String.format("Starting second mock kinesis stream %s on port %d", streamname2, port));
 
         this.servlet = new Servlet();
 
@@ -44,6 +48,7 @@ public class MockKinesis extends AbstractMojo {
         }
 
         this.addStream(streamname);
+        this.addStream(streamname2);
 
     }
 
