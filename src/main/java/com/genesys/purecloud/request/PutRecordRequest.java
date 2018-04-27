@@ -16,6 +16,12 @@ public class PutRecordRequest {
     @JsonProperty("PartitionKey")
     private String partitionKey;
 
+    @JsonProperty("ExplicitHashKey")
+    private String explicitHashKey;
+
+    @JsonProperty("SequenceNumberForOrdering")
+    private String sequenceNumberForOrdering;
+
     public String getStreamName() {
         return streamName;
     }
@@ -30,5 +36,15 @@ public class PutRecordRequest {
         return partitionKey;
     }
     public void setPartitionKey(String partitionKey){ this.partitionKey = partitionKey;}
+
+    public String getExplicitHashKey() {
+        return explicitHashKey;
+    }
+    public void setExplicitHashKey(String explicitHashKey){ this.explicitHashKey = explicitHashKey;}
+
+    public String getSequenceNumberForOrdering() {
+        return sequenceNumberForOrdering;
+    }
+    public void setSequenceNumberForOrdering(String sequenceNumberForOrdering){ this.sequenceNumberForOrdering = sequenceNumberForOrdering;}
 
 }
