@@ -83,4 +83,17 @@ Messages with CBOR enter the server with **Content-type** set to **application/x
  normal json messages will have the content type **application/x-amz-json-1.1**
 
 
+## Kinesis Producer Library
+If using this with KPL, you will need to set the following properties
+
+```java
+kplConfig.setKinesisEndpoint("localhost");
+kplConfig.setKinesisPort(8899);
+kplConfig.setVerifyCertificate(false);
+
+System.setProperty("com.amazonaws.sdk.disableCbor", "true");
+System.setProperty(DISABLE_CERT_CHECKING_SYSTEM_PROPERTY, "");
+
+kplConfig.setVerifyCertificate(false);
+```
 

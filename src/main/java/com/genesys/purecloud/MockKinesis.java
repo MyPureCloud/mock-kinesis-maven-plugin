@@ -6,9 +6,11 @@ import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.http.HttpVersion;
+import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 @Mojo(threadSafe = true, name = "start", defaultPhase = LifecyclePhase.PRE_INTEGRATION_TEST)
 public class MockKinesis extends AbstractMojo {
@@ -19,6 +21,9 @@ public class MockKinesis extends AbstractMojo {
 
     @Parameter(defaultValue = "8898", required = false)
     protected transient int port = 8898;
+
+    @Parameter(defaultValue = "8899", required = false)
+    protected transient int httpsPort = 8899;
 
     @Parameter(defaultValue = "kinesis-mock", required = false)
     protected transient String streamname = "kinesis-mock";
@@ -36,6 +41,29 @@ public class MockKinesis extends AbstractMojo {
         ServletHolder servlet = new ServletHolder(this.servlet);
 
         this.server = new Server(port);
+        final HttpConfiguration httpConfiguration = new HttpConfiguration();
+        httpConfiguration.setSecureScheme("https");
+        httpConfiguration.setSecurePort(httpsPort);
+
+        String keystorePath = MockKinesis.class.getResource("/keystore.jks").toExternalForm();
+        final SslContextFactory sslContextFactory = new SslContextFactory(keystorePath);
+        sslContextFactory.setKeyStorePassword("password");
+        final HttpConfiguration httpsConfiguration = new HttpConfiguration(httpConfiguration);
+        httpsConfiguration.addCustomizer(new SecureRequestCustomizer());
+        final ServerConnector httpsConnector = new ServerConnector(server,
+                new SslConnectionFactory(sslContextFactory, HttpVersion.HTTP_1_1.asString()),
+                new HttpConnectionFactory(httpsConfiguration));
+        httpsConnector.setPort(httpsPort);
+        server.addConnector(httpsConnector);
+
+
+        final ServerConnector http = new ServerConnector(server,
+                new HttpConnectionFactory(httpConfiguration));
+        http.setPort(port);
+        server.addConnector(http);
+
+
+
         ServletContextHandler context = new ServletContextHandler(server, "/*");
         context.addServlet(servlet, "/*");
 
@@ -59,9 +87,7 @@ public class MockKinesis extends AbstractMojo {
 
     public static void main(String[] args) throws Exception {
         MockKinesis mock = new MockKinesis();
-        mock.addStream("goodstream");
-        mock.addStream("kinesis-mock");
-        mock.addStream("badstream");
+        mock.execute();
 
         MockKinesisClient client = new MockKinesisClient(8898);
         client.setRateLimitErrorRate("badstream", 1);

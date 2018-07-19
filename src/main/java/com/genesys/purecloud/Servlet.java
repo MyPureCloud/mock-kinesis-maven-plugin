@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.genesys.purecloud.errors.KinesisError;
 import com.genesys.purecloud.errors.ResourceNotFoundException;
+import com.genesys.purecloud.request.DescribeStreamRequest;
 import com.genesys.purecloud.request.PutRecordRequest;
 import com.genesys.purecloud.request.PutRecordsRequest;
 
+import com.genesys.purecloud.response.DescribeStreamResponse;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletException;
@@ -119,7 +121,11 @@ public class Servlet extends HttpServlet {
             } else if (amzTarget.equals("PutRecord")) {
                 responseBody = handlePutRecord(request);
 
+            } else if (amzTarget.equals("DescribeStream")) {
+                responseBody = handleDescribeStream(request);
+
             } else {
+
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
@@ -166,6 +172,15 @@ public class Servlet extends HttpServlet {
 
         return toJson(stream.handleRecordRequest(records));
     }
+
+    private String handleDescribeStream(HttpServletRequest request) throws IOException, ResourceNotFoundException{
+        DescribeStreamRequest describeRequest =  parseFromRequest(request, DescribeStreamRequest.class);
+
+        DescribeStreamResponse response = new DescribeStreamResponse(describeRequest.getStreamName());
+
+        return toJson(response);
+    }
+
 
     private String extractAmzTarget(HttpServletRequest request) {
         final String amzTarget = request.getHeader("X-Amz-Target");
