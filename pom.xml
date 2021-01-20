@@ -54,7 +54,7 @@
         <maven-invoker-plugin.version>2.0.0</maven-invoker-plugin.version>
         <maven-plugin-annotations.version>3.4</maven-plugin-annotations.version>
         <plexus-utils.version>3.0.8</plexus-utils.version>
-        <jackson.databind.version>2.8.4</jackson.databind.version>
+        <jackson.databind.version>2.12.1</jackson.databind.version>
         <java.version>1.8</java.version>
         <jetty.server.version>9.4.0.v20161208</jetty.server.version>
         <jetty.servlet.version>9.4.0.v20161208</jetty.servlet.version>
