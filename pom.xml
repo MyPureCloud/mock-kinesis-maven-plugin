@@ -63,7 +63,7 @@
         <okhttp.version>3.9.0</okhttp.version>
 
         <!-- Testing Dependencies -->
-        <junit.version>4.8.2</junit.version>
+        <junit.version>4.13.1</junit.version>
 
         <!-- Plugins -->
         <maven-plugin-plugin.version>3.2</maven-plugin-plugin.version>
