@@ -2,6 +2,7 @@ package com.genesys.purecloud;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.genesys.purecloud.errors.KinesisError;
@@ -24,7 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Servlet extends HttpServlet {
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
     private final static String KINESIS_TARGET = "Kinesis_20131202.";
 
