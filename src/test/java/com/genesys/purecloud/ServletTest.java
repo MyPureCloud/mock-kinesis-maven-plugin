@@ -6,7 +6,7 @@ import com.genesys.purecloud.request.PutRecordsRequest;
 import com.genesys.purecloud.response.PutRecordResponse;
 import com.genesys.purecloud.response.PutRecordsResponse;
 import org.junit.Test;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -33,7 +33,7 @@ public class ServletTest extends Mockito {
     private ServletInputStream getMockStream(String body) throws IOException{
         ServletInputStream mockServletInputStream = mock(ServletInputStream.class);
 
-        when(mockServletInputStream.read(Matchers.<byte[]>any(), anyInt(), anyInt())).thenAnswer(new Answer<Integer>() {
+        when(mockServletInputStream.read(ArgumentMatchers.any(), anyInt(), anyInt())).thenAnswer(new Answer<Integer>() {
             @Override
             public Integer answer(InvocationOnMock invocationOnMock) throws Throwable {
                 Object[] args = invocationOnMock.getArguments();

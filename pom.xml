@@ -5,7 +5,7 @@
     <name>Mock AWS Kinesis maven plugin</name>
     <groupId>com.mypurecloud</groupId>
     <artifactId>mock-kinesis-maven-plugin</artifactId>
-    <version>1.2.0</version>
+    <version>2.0.0</version>
     <packaging>maven-plugin</packaging>
 
     <description>Mock kinesis is a library intended to run with the maven-failsafe-plugin to act as a fake aws kinesis endpoint for your integration tests.
@@ -49,25 +49,27 @@
     </distributionManagement>
 
     <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
         <!--  Dependencies -->
-        <maven-plugin-api.version>3.3.3</maven-plugin-api.version>
-        <maven-invoker-plugin.version>2.0.0</maven-invoker-plugin.version>
-        <maven-plugin-annotations.version>3.4</maven-plugin-annotations.version>
         <plexus-utils.version>3.0.8</plexus-utils.version>
         <jackson.databind.version>2.8.4</jackson.databind.version>
-        <java.version>1.8</java.version>
         <jetty.server.version>9.4.0.v20161208</jetty.server.version>
         <jetty.servlet.version>9.4.0.v20161208</jetty.servlet.version>
-        <jackson.databind.version>2.7.4</jackson.databind.version>
         <commons.io.version>2.4</commons.io.version>
         <okhttp.version>3.9.0</okhttp.version>
 
         <!-- Testing Dependencies -->
-        <junit.version>4.8.2</junit.version>
+        <junit.version>4.13.1</junit.version>
 
         <!-- Plugins -->
-        <maven-plugin-plugin.version>3.2</maven-plugin-plugin.version>
-        <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+        <maven-plugin-api.version>3.9.9</maven-plugin-api.version>
+        <maven-invoker-plugin.version>3.9.0</maven-invoker-plugin.version>
+        <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
+        <maven-plugin-plugin.version>3.15.1</maven-plugin-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 
 
     </properties>
@@ -114,6 +116,8 @@
             <version>${maven-plugin-annotations.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -123,7 +127,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.8.47</version>
+            <version>5.12.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -159,22 +163,19 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.3</version>
             </plugin>
 
             <!-- Generate sources JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
